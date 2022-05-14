@@ -3,6 +3,8 @@ import asyncio
 import streetview as sv
 import os
 
+os.environ['TOKEN'] = 'TOKEN'
+
 intents = discord.Intents.default()
 intents.messages = True
 
