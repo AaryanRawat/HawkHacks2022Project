@@ -1,5 +1,7 @@
 import discord
 import asyncio
+import streetview as sv
+import os
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -24,6 +26,7 @@ async def on_message(message):
     if message.content.startswith('geodude-commands'):
         await message.channel.send('geodude-hello')
         await message.channel.send('geodude-commands')
+        await message.channel.send('geodude-start')
 
     if message.content.startswith('geodude-start'):
         await message.channel.send('Select A Playlist: ')
@@ -41,7 +44,7 @@ async def on_message(message):
             #and do comparisons with user answers. 
             await message.channel.send(f'You selected {msg} playlist!')
 
-        except asyncio.Timeouterror:
+        except asyncio.TimeoutError:
             await message.channel.send('Selection took too long, please try again')
 
-client.run('OTc0ODUzMjc2OTIxMTM1MTA0.G9CYa8.BBkD6vwHez-zU8s9TO4onrBXyUgzLqTA4VCZJg')
+client.run(os.getenv('TOKEN'))
