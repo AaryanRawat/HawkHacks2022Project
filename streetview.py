@@ -79,7 +79,7 @@ class StreetView:
         return f
 
     """
-    Returns the metadata of the most recently queried object
+    Returns the  metadata of the most recently queried object
 
     Example return format:
     {'size': '600x300', 'location': {'lat': 43.0791675, 'lng': -79.0788306}, 'heading': '90.00', 
