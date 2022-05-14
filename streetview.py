@@ -71,12 +71,15 @@ class StreetView:
         self.saveLocation('600x300', location, '90.00', '0')
 
     """
-    Returns the image file of the most recently queried location (file should be closed by user if needed to close it)
+    Returns the image file of the most recently queried location
     """
 
     def getImage(self):
-        f = open(self.dest + '\gsv_0.jpg', 'rb')
-        return f
+        with open(self.dest + '\gsv_0.jpg', 'rb') as f: #earlier code left a file handle open
+            img = f.read()
+        return img
+        # f = open(self.dest + '\gsv_0.jpg', 'rb')
+        # return f
 
     """
     Returns the  metadata of the most recently queried object
