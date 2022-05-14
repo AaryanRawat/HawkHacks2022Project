@@ -5,6 +5,7 @@ Quinton Mak
 
 A module for interacting with the google streetview api. Specifically, getting static images from a specific location.
 google_streetview api: https://rrwen.github.io/google_streetview/_modules/api.html
+Note: Because of the way google_streetview API works, you can only access the most recent query at a time. 
 """
 
 
@@ -15,8 +16,10 @@ class StreetView:
     """
 
     def __init__(self, key, dest='images'):
-        self.key = key
+        self.__key = key
         self.dest = dest
+        self.params = {}
+        self.metadata = None
 
     """
     Saves a jpg streetview image of the specified location.
@@ -41,21 +44,23 @@ class StreetView:
         When a lat/lng is provided, the API searches a 50 meter radius for a photograph closest to this location. 
         Because Street View imagery is periodically refreshed, and photographs may be taken from slightly different positions each time,
         it's possible that your location may snap to a different panorama when imagery is updated.
+        Note: I don't think URL encoding is needed, a normal string should work fine for this API
     dest (str) is the file FOLDER to save the image to. If the folder does not exist, it will be created. The file name will be 'gsv_0' as 
         per the google streetview api.
     """
 
     def saveLocation(self, size, location, heading, pitch):
-        params = [{
+        self.params = {
             'size': size,
             'location': location,
             'heading': heading,
             'pitch': pitch,
-            'key': self.key
-        }]
+            'key': self.__key
+        }
+        params = [self.params]
         results = gsv.results(params)
         results.download_links(self.dest)
-        print(results.metadata)
+        self.metadata = results.metadata
 
     """
     Saves a jpg streetview image of the specified location, with the default specifications of 600x300 px, heading = 0.00, pitch = 0.00.
@@ -72,3 +77,19 @@ class StreetView:
     def getImage(self):
         f = open(self.dest + '\gsv_0.jpg', 'rb')
         return f
+
+    """
+    Returns the metadata of the most recently queried object
+
+    Example return format:
+    {'size': '600x300', 'location': {'lat': 43.0791675, 'lng': -79.0788306}, 'heading': '90.00', 
+    'pitch': '0', 'key': YOUR_KEY, 'copyright': '© Alec Coder', 
+    'date': '2017-07', 'pano_id': 'CAoSLEFGMVFpcE5Ob01EWVNkdzA3YkoxRUtTX1dhS2Fka294Y3VUekh2N1MtbGhE', 
+    'status': 'OK', '_file': 'gsv_0.jpg'}
+    """
+
+    def getMetadata(self):
+
+        metadict = self.metadata[0]
+
+        return self.params | metadict
