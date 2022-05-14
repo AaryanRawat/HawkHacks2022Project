@@ -1,10 +1,11 @@
 import google_streetview.api as gsv
+import googlemaps
 """
 Hawkhacks May 2022
-Quinton Mak
 
 A module for interacting with the google streetview api. Specifically, getting static images from a specific location.
 google_streetview api: https://rrwen.github.io/google_streetview/_modules/api.html
+Nominatim api: https://geopy.readthedocs.io/en/stable/#nominatim
 Note: Because of the way google_streetview API works, you can only access the most recent query at a time. 
 """
 
@@ -75,7 +76,8 @@ class StreetView:
     """
 
     def getImage(self):
-        with open(self.dest + '\gsv_0.jpg', 'rb') as f: #earlier code left a file handle open
+        with open(self.dest + '\gsv_0.jpg',
+                  'rb') as f:  #earlier code left a file handle open
             img = f.read()
         return img
         # f = open(self.dest + '\gsv_0.jpg', 'rb')
@@ -92,7 +94,71 @@ class StreetView:
     """
 
     def getMetadata(self):
-
         metadict = self.metadata[0]
-
         return self.params | metadict
+
+    """
+    Returns the coordinates in latitude and longitude of the most recently queried location, as a dictionary
+    Return format: {'lat':___, 'lng':___}
+    """
+
+    def getCurrentCoordinates(self):
+        coords = self.getMetadata()['location']
+        return coords
+
+    """
+    Returns the formatted address of the most recently queried location as a str
+    """
+
+    def getCurrentAddress(self):
+        coords = self.getMetadata()['location']
+        return self.getAddress(coords)
+
+    """
+    Gets the latitude and longitude of the given location, as a dictionary
+    location (str) represents the address of the place
+    Return format: {'lat':___, 'lng':___} 
+    """
+
+    def getCoordinates(self, location):
+        gmaps = googlemaps.Client(key=self.__key)
+        geocode_result = gmaps.geocode(location)
+        return geocode_result[0]['geometry']['location']
+
+    """
+    Gets a formatted address of the given location
+    location is either a 
+        (str)
+        (lat, long) tuple
+        {'lat':___, 'lng':___} formatted dict
+    which represents the address of the place
+    """
+
+    def getAddress(self, location):
+        gmaps = googlemaps.Client(key=self.__key)
+        if (type(location) == str):
+            geocode_result = gmaps.geocode(location)
+        elif (type(location) == tuple):
+            geocode_result = gmaps.reverse_geocode(location)
+        elif (type(location) == dict):
+            geocode_result = gmaps.reverse_geocode(tuple(location.values()))
+        return geocode_result[0]['formatted_address']
+
+    """
+    Returns a dictionary containing all of the raw geocode data of the given location
+    location is either a 
+        (str)
+        (lat, long) tuple
+        {'lat':___, 'lng':___} formatted dict
+    which represents the address of the place
+    """
+
+    def getAllGeodata(self, location):
+        gmaps = googlemaps.Client(key=self.__key)
+        if (type(location) == str):
+            geocode_result = gmaps.geocode(location)
+        elif (type(location) == tuple):
+            geocode_result = gmaps.reverse_geocode(location)
+        elif (type(location) == dict):
+            geocode_result = gmaps.reverse_geocode(tuple(location.values()))
+        return geocode_result[0]
