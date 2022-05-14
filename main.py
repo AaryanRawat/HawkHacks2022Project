@@ -32,14 +32,16 @@ async def on_message(message):
         await message.channel.send(f'3. {playlists[2]}: ')
         await message.channel.send('Type out the first word of playlist name, For eg. Romantic for Romantic Movie Locations')
         def check(msg):
-            for item in playlists:
+            for item in playlists_check:
                 if(msg == item):
                     return True
         try:
             msg = await client.wait_for("message", check = check, timeout = 30)
             #start of the game where we need the google api stuff. probably need a class to store all the pulled data
             #and do comparisons with user answers. 
+            await message.channel.send(f'You selected {msg} playlist!')
+
         except asyncio.Timeouterror:
             await message.channel.send('Selection took too long, please try again')
 
-client.run('')
+client.run('OTc0ODUzMjc2OTIxMTM1MTA0.G9CYa8.BBkD6vwHez-zU8s9TO4onrBXyUgzLqTA4VCZJg')
