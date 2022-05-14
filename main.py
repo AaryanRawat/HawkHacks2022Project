@@ -3,8 +3,6 @@ import asyncio
 import streetview as sv
 import os
 
-os.environ['TOKEN'] = 'TOKEN'
-
 intents = discord.Intents.default()
 intents.messages = True
 
@@ -49,4 +47,4 @@ async def on_message(message):
         except asyncio.TimeoutError:
             await message.channel.send('Selection took too long, please try again')
 
-client.run(os.getenv('TOKEN'))
+client.run('')
