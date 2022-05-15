@@ -7,8 +7,6 @@ from math import cos, asin, sqrt
 
 pysqldf = lambda q: sqldf(q, globals())
 lsqldf = lambda q: sqldf(q, locals())
-h field corresponds to a column in the spreadsheet.
-
 
 
 class Playlist:
@@ -28,6 +26,7 @@ class Playlist:
     Each dict corresponds to a row in the spreadsheet. 
     Each field corresponds to a column in the spreadsheet.
     """
+
     def listOfLocation(self, path):
         try:
             df = pd.read_excel(path)
