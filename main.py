@@ -72,9 +72,13 @@ async def start(ctx):
         for playlist in PLAYLISTS:
             if (msg.content == playlist.name.split()[0]):
                 await ctx.send('Valid Playlist Selected!')
-                gameRound = 1
+
+                await ctx.send('How many rounds?')
+                NUMBER_OF_ROUNDS = await bot.wait_for(
+                    "message", check=lambda m: m.content.isdigit(), timeout=30)
+
                 gameLocations = random.sample(playlist.locations,
-                                              k=NUMBER_OF_ROUNDS)
+                                              k=int(NUMBER_OF_ROUNDS.content))
                 print(gameLocations)
 
                 points = 0
