@@ -7,12 +7,8 @@ from math import cos, asin, sqrt
 
 pysqldf = lambda q: sqldf(q, globals())
 lsqldf = lambda q: sqldf(q, locals())
-"""
-    Returns a (listof dict) from an excel file. 
-    The file must have a column named 'location' and can have other optional columns.
-    Each dict corresponds to a row in the spreadsheet. 
-    Each field corresponds to a column in the spreadsheet.
-"""
+h field corresponds to a column in the spreadsheet.
+
 
 
 class Playlist:
@@ -26,6 +22,12 @@ class Playlist:
             # set it manually, I guess
             print()
 
+    """
+    Returns a (listof dict) from an excel file. 
+    The file must have a column named 'location' and can have other optional columns.
+    Each dict corresponds to a row in the spreadsheet. 
+    Each field corresponds to a column in the spreadsheet.
+    """
     def listOfLocation(self, path):
         try:
             df = pd.read_excel(path)
