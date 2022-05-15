@@ -46,7 +46,7 @@ async def hello(ctx):
 @bot.command()
 async def commands(ctx):
     comms = ['hello', 'commands', 'start']
-    await ctx.send((f'{com}' for com in enumerate(comms)) + '\n')
+    await ctx.send(''.join([f'{i+1}. {com}\n' for i, com in enumerate(comms)]))
 
 
 @bot.command()
