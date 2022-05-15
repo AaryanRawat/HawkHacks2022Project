@@ -44,10 +44,21 @@ class Playlist:
                        for col, val in zip(cols, item)} for item in list]
         return returnlist
 
-    # Haversine formula for finding distance on a sphere
-    def distance(self, lat1, lon1, lat2, lon2):
-        p = 0.017453292519943295  # Pi / 180
-        a = 0.5 - cos(
-            (lat2 - lat1) * p) / 2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos(
-                (lon2 - lon1) * p)) / 2
-        return 12742 * asin(sqrt(a))  # Diameter of earth = 12742 km
+
+# Haversine formula for finding distance on a sphere
+def distance(lat1, lon1, lat2, lon2):
+    lat1 = float(lat1)
+    lat2 = float(lat2)
+    lon1 = float(lon1)
+    lon2 = float(lon2)
+    p = 0.017453292519943295  # Pi / 180
+    a = 0.5 - cos(
+        (lat2 - lat1) * p) / 2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos(
+            (lon2 - lon1) * p)) / 2
+    return float(12742) * asin(sqrt(a))  # Diameter of earth = 12742 km
+
+
+def points(lat1, lon1, lat2, lon2):
+    d = distance(lat1, lon1, lat2, lon2)
+    if (d > 1000): return 0
+    return int(1000 - d)

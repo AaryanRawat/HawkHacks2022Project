@@ -79,7 +79,7 @@ class StreetView:
     def saveLocationDefault(self, location):
         self.params = {
             'size': '600x300',
-            'location': location,
+            'location': self.getAddress(location),
             'key': self.__key
         }
         params = [self.params]
@@ -111,6 +111,7 @@ class StreetView:
 
     def getMetadata(self):
         metadict = self.metadata[0]
+
         return self.params | metadict
 
     """
@@ -119,7 +120,7 @@ class StreetView:
     """
 
     def getCurrentCoordinates(self):
-        coords = self.getMetadata()['location']
+        coords = self.getCoordinates(self.getMetadata()['location'])
         return coords
 
     """
@@ -138,9 +139,14 @@ class StreetView:
     """
 
     def getCoordinates(self, location):
+        location = self.getAddress(location)
         gmaps = googlemaps.Client(key=self.__key)
         geocode_result = gmaps.geocode(location)
-        return geocode_result[0]['geometry']['location']
+        #print(geocode_result)
+        try:
+            return geocode_result[0]['geometry']['location']
+        except IndexError:
+            return None
 
     """
     Gets a formatted address of the given location
