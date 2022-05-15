@@ -64,17 +64,17 @@ async def start(ctx):
     except asyncio.TimeoutError:
         await ctx.channel.send('Selection took too long, please try again')
     
-    currentPlaylist = PLAYLISTS[1] # Placeholder until playlist selection is implemented fully
+    currentPlaylist = PLAYLISTS[1] # TODO Placeholder until playlist selection is implemented fully
+    if currentPlaylist:
+        gameRound = 1
 
-    gameRound = 1
+        gameLocations = random.sample(currentPlaylist.locations, k=NUMBER_OF_ROUNDS)
+        print(gameLocations)
 
-    gameLocations = random.sample(currentPlaylist.locations, k=NUMBER_OF_ROUNDS)
-    print(gameLocations)
-
-    for gameLocation in gameLocations:
-        SV.saveLocationDefault(gameLocation['location'])
-        question = gameLocation['movie']
-        await ctx.channel.send(file=discord.File('images/gsv_0.jpg'), content=question)
+        for gameLocation in gameLocations:
+            SV.saveLocationDefault(gameLocation['location'])
+            question = gameLocation['movie'] # TODO Placeholder until we figure out how to write the question (hints for special categories?)
+            await ctx.channel.send(file=discord.File('images/gsv_0.jpg'), content=question)
 
 
 
@@ -88,6 +88,6 @@ async def start(ctx):
     #   Await response
     #   Process response, calculate distance => score
     #   Return score
-    # Return overall score + "use <geodude start> command to play again"
+    # Return "Your total score was {score} \n Use <geodude start> command to play again"
 
 bot.run(ENV['BOT_KEY'])
