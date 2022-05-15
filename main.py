@@ -72,15 +72,15 @@ async def start(ctx):
                     question = gameLocation['movie'] # TODO Placeholder until we figure out how to write the question (hints for special categories?)
                     await ctx.send(file=discord.File('images/gsv_0.jpg'), content=question)
                     await ctx.send("What country do you think this is?")
-                    ans_country = await ctx.wait_for("message", check = check)
+                    ans_country = await ctx.wait_for("message", check = lambda msg: msg.author == ctx.author)
                     await ctx.send("What city do you think this is?")
-                    ans_city = await ctx.wait_for("message", check = check)
+                    ans_city = await ctx.wait_for("message", check = lambda msg: msg.author == ctx.author)
                     if msg.content == 'Horror':
                         await ctx.send("What movie do you think this is?")
-                        ans_movie = await ctx.wait_for("message", check = check)
+                        ans_movie = await ctx.wait_for("message", check = lambda msg: msg.author == ctx.author)
                     elif msg.content == 'Landmarks':
                         await ctx.send("What famous landmark do you think this is?")
-                        ans_landmark = await ctx.wait_for("message", check = check)
+                        ans_landmark = await ctx.wait_for("message", check = lambda msg: msg.author == ctx.author)
                     
     except asyncio.TimeoutError:
         await ctx.send('Selection took too long, please try again')
