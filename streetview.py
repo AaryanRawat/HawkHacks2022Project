@@ -7,6 +7,19 @@ A module for interacting with the google streetview api. Specifically, getting s
 google_streetview api: https://rrwen.github.io/google_streetview/_modules/api.html
 Nominatim api: https://geopy.readthedocs.io/en/stable/#nominatim
 Note: Because of the way google_streetview API works, you can only access the most recent query at a time. 
+
+How to use:
+    from streetview import StreetView
+
+    view = StreetView(key, path)  # path is optional and will default to 'images'
+    view.saveLocation(size, location, heading, pitch)
+    # OR
+    view.saveLocationDefault(location)
+    
+    view.getImage()  # image is now saved as 'gsv_0.jpg'
+
+    *******************************************************************************
+    Other methods as desired
 """
 
 
@@ -24,7 +37,7 @@ class StreetView:
         self.metadata = None
 
     """
-    Saves a jpg streetview image of the specified location.
+    Saves a .jpg streetview image of the specified location.
 
     size (str) is the dimensions of the saved image file (jpg). Formatted as 'size': '600x300', max 640x640 pixels.
     From Google Streeetview Static API: 
