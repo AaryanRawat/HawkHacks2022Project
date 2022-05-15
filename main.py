@@ -118,7 +118,7 @@ async def start(ctx):
                     if msg.content == 'Horror':
                         if (ans_movie.content.lower()
                                 in gameLocation['movie'].lower()):
-                            pts += 500
+                            pts = 500
                         else:
                             pts = 0
                         points += pts
@@ -128,7 +128,7 @@ async def start(ctx):
                     elif msg.content == 'Landmarks':
                         if (ans_landmark.content.lower()
                                 in gameLocation['location'].lower()):
-                            pts += 500
+                            pts = 500
                         else:
                             pts = 0
                         points += pts
