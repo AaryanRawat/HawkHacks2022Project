@@ -36,7 +36,7 @@ class Playlist:
         if ('location' not in df):
             print("Excel file must have the required columns!")
             return
-        df = sqldf("SELECT * FROM df", locals())
+        df = sqldf("SELECT * FROM df WHERE location IS NOT NULL", locals())
         cols = df.columns
         list = df.values.tolist()
         returnlist = [{col: val
@@ -50,3 +50,11 @@ class Playlist:
             (lat2 - lat1) * p) / 2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos(
                 (lon2 - lon1) * p)) / 2
         return 12742 * asin(sqrt(a))  # Diameter of earth = 12742 km
+
+
+df = pd.read_excel('capitals.xlsx')
+q = """
+    SELECT location || ',' || Country as location FROM df
+    """
+mod = pysqldf(q)
+mod.to_excel('capitals_modified.xlsx')
