@@ -139,13 +139,17 @@ class StreetView:
     """
 
     def getCoordinates(self, location):
-        location = self.getAddress(location)
-        gmaps = googlemaps.Client(key=self.__key)
-        geocode_result = gmaps.geocode(location)
+        try:
+            location = self.getAddress(location)
+            gmaps = googlemaps.Client(key=self.__key)
+            geocode_result = gmaps.geocode(location)
+        except:
+            return None
         #print(geocode_result)
         try:
             return geocode_result[0]['geometry']['location']
         except IndexError:
+            print("Index Out of bounds")
             return None
 
     """
@@ -159,14 +163,20 @@ class StreetView:
     """
 
     def getAddress(self, location):
-        gmaps = googlemaps.Client(key=self.__key)
-        if (type(location) == str):
-            geocode_result = gmaps.geocode(location)
-        elif (type(location) == tuple):
-            geocode_result = gmaps.reverse_geocode(location)
-        elif (type(location) == dict):
-            geocode_result = gmaps.reverse_geocode(tuple(location.values()))
-        return geocode_result[0]['formatted_address']
+        try:
+            gmaps = googlemaps.Client(key=self.__key)
+            if (type(location) == str):
+                geocode_result = gmaps.geocode(location)
+            elif (type(location) == tuple):
+                geocode_result = gmaps.reverse_geocode(location)
+            elif (type(location) == dict):
+                geocode_result = gmaps.reverse_geocode(tuple(
+                    location.values()))
+            return geocode_result[0]['formatted_address']
+        except IndexError:
+            return None
+        except:
+            return None
 
     """
     Returns a dictionary containing all of the raw geocode data of the given location
