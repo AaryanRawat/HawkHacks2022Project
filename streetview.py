@@ -69,12 +69,23 @@ class StreetView:
         self.metadata = results.metadata
 
     """
-    Saves a jpg streetview image of the specified location, with the default specifications of 600x300 px, heading = 0.00, pitch = 0.00.
+    Saves a jpg streetview image of the specified location, with the default specifications of 
+        size = 600x300 px, 
+        pitch = 0.00, 
+        heading is calculated by the google api.
     For more information see the saveLocation function
     """
 
     def saveLocationDefault(self, location):
-        self.saveLocation('600x300', location, '90.00', '0')
+        self.params = {
+            'size': '600x300',
+            'location': location,
+            'key': self.__key
+        }
+        params = [self.params]
+        results = gsv.results(params)
+        results.download_links(self.dest)
+        self.metadata = results.metadata
 
     """
     Returns the image file of the most recently queried location
@@ -122,7 +133,8 @@ class StreetView:
     """
     Gets the latitude and longitude of the given location, as a dictionary
     location (str) represents the address of the place
-    Return format: {'lat':___, 'lng':___} 
+    Return format: {'lat':___, 'lng':___}.
+    Returns None if data could not be retrieved.
     """
 
     def getCoordinates(self, location):
@@ -136,7 +148,8 @@ class StreetView:
         (str)
         (lat, long) tuple
         {'lat':___, 'lng':___} formatted dict
-    which represents the address of the place
+    which represents the address of the place.
+    Returns None if data could not be retrieved.
     """
 
     def getAddress(self, location):
@@ -155,7 +168,8 @@ class StreetView:
         (str)
         (lat, long) tuple
         {'lat':___, 'lng':___} formatted dict
-    which represents the address of the place
+    which represents the address of the place.
+    Returns None if data could not be retrieved.
     """
 
     def getAllGeodata(self, location):
