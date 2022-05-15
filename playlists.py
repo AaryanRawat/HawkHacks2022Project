@@ -1,4 +1,5 @@
 from typing_extensions import Self
+from unicodedata import name
 import numpy as np
 import pandas as pd
 from pandasql import sqldf
@@ -14,11 +15,12 @@ class Playlist:
     path (str): the file path of the playlist data
     """
 
-    def __init__(self, path=None):
+    def __init__(self, path=None, name=None):
         if (path): self.locations = self.listOfLocation(path)
         else:
             # set it manually, I guess
             print()
+        self.name = name
 
     """
     Returns a (listof dict) from an excel file. 

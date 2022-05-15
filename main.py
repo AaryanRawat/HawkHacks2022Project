@@ -2,14 +2,25 @@ import discord
 import asyncio
 import streetview as sv
 import os
+import playlists
+import random
+from envreader import ENV
 
 from discord.ext import commands
+
+NUMBER_OF_ROUNDS = 5
+SV = sv.StreetView(key=ENV['API_KEY'])
 
 intents = discord.Intents.default()
 intents.messages = True
 
-PLAYLISTS = ['Romantic Movie Locations', 'Horror Movie Locations', 'Random Movie Locations']
-PLAYLISTS_CHECK = [playlist.split()[0] for playlist in PLAYLISTS]
+#PLAYLISTS = ['Capital cities of the world', 'Horror Movie Locations', 'Landmarks of the world']
+PLAYLISTS = [
+    playlists.Playlist('capitals.xlsx', 'Capital Cities of the World'),
+    playlists.Playlist('horror_movies.xlsx', 'Horror Movie Locations'),
+    playlists.Playlist('landmarks.xlsx', 'Landmarks of the world')
+]
+PLAYLISTS_CHECK = [playlist.name.split()[0] for playlist in PLAYLISTS]
 
 bot = commands.Bot('geodude ')
 
@@ -37,7 +48,7 @@ async def commands(ctx):
 async def start(ctx):
     await ctx.send(
         'Select A Playlist:\n'
-        + '\n'.join(f'{i+1}. {playlist}' for i, playlist in enumerate(PLAYLISTS)) +
+        + '\n'.join(f'{i+1}. {playlist.name}' for i, playlist in enumerate(PLAYLISTS)) +
         '\nType out the first word of playlist name, For eg. Romantic for Romantic Movie Locations'
     )
     def check(msg):
@@ -53,9 +64,24 @@ async def start(ctx):
     except asyncio.TimeoutError:
         await ctx.channel.send('Selection took too long, please try again')
     
+    currentPlaylist = PLAYLISTS[1] # Placeholder until playlist selection is implemented fully
+
+    gameRound = 1
+
+    gameLocations = random.sample(currentPlaylist.locations, k=NUMBER_OF_ROUNDS)
+    print(gameLocations)
+
+    for gameLocation in gameLocations:
+        SV.saveLocationDefault(gameLocation['location'])
+        question = gameLocation['movie']
+        await ctx.channel.send(file=discord.File('images/gsv_0.jpg'), content=question)
+
+
+
+
     # TODO Implement gameplay
-    # Load playlist
-    # Select locations from playlist
+    #- Load playlist
+    #- Select locations from playlist
     # Loop through locations, playing the game
     # For each location:
     #   Send photo with question
@@ -64,4 +90,4 @@ async def start(ctx):
     #   Return score
     # Return overall score + "use <geodude start> command to play again"
 
-bot.run('')
+bot.run(ENV['BOT_KEY'])
