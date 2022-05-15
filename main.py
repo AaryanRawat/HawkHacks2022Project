@@ -71,7 +71,8 @@ async def start(ctx):
                     SV.saveLocationDefault(gameLocation['location'])
                     question = gameLocation['movie'] # TODO Placeholder until we figure out how to write the question (hints for special categories?)
                     await ctx.send(file=discord.File('images/gsv_0.jpg'), content=question)
-
+                    ans = await ctx.wait_for("message", check = check)
+                    
     except asyncio.TimeoutError:
         await ctx.send('Selection took too long, please try again')
     
