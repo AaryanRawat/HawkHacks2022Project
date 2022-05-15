@@ -52,5 +52,16 @@ async def start(ctx):
 
     except asyncio.TimeoutError:
         await ctx.channel.send('Selection took too long, please try again')
+    
+    # TODO Implement gameplay
+    # Load playlist
+    # Select locations from playlist
+    # Loop through locations, playing the game
+    # For each location:
+    #   Send photo with question
+    #   Await response
+    #   Process response, calculate distance => score
+    #   Return score
+    # Return overall score + "use <geodude start> command to play again"
 
 bot.run('')
