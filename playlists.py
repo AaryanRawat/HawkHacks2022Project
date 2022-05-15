@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from pandasql import sqldf
 from streetview import StreetView
+from math import cos, asin, sqrt
 
 pysqldf = lambda q: sqldf(q, globals())
 lsqldf = lambda q: sqldf(q, locals())
@@ -40,3 +41,11 @@ class Playlist:
         returnlist = [{col: val
                        for col, val in zip(cols, item)} for item in list]
         return returnlist
+
+    # Haversine formula for finding distance on a sphere
+    def distance(self, lat1, lon1, lat2, lon2):
+        p = 0.017453292519943295  # Pi / 180
+        a = 0.5 - cos(
+            (lat2 - lat1) * p) / 2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos(
+                (lon2 - lon1) * p)) / 2
+        return 12742 * asin(sqrt(a))  # Diameter of earth = 12742 km
