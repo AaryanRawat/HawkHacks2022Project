@@ -16,9 +16,9 @@ intents.messages = True
 
 #PLAYLISTS = ['Capital cities of the world', 'Horror Movie Locations', 'Landmarks of the world']
 PLAYLISTS = [
-    playlists.Playlist('capitals.xlsx', 'Capital Cities of the World'),
-    playlists.Playlist('horror_movies.xlsx', 'Horror Movie Locations'),
-    playlists.Playlist('landmarks.xlsx', 'Landmarks of the world')
+    playlists.Playlist('data/capitals.xlsx', 'Capital Cities of the World'),
+    playlists.Playlist('data/horror_movies.xlsx', 'Horror Movie Locations'),
+    playlists.Playlist('data/landmarks.xlsx', 'Landmarks of the world')
 ]
 PLAYLISTS_CHECK = [playlist.name.split()[0] for playlist in PLAYLISTS]
 
