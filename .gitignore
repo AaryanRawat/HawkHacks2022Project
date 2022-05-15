@@ -3,3 +3,4 @@ debug.py
 .gitignore
 /images
 bot-env
+__pycache__
