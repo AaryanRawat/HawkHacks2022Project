@@ -1,5 +1,4 @@
 from typing_extensions import Self
-from unicodedata import name
 import numpy as np
 import pandas as pd
 from pandasql import sqldf
