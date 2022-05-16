@@ -9,4 +9,5 @@ discord.py, google_streetview api, googlemaps api, pandas, pandasql, Microsoft E
 # Try it out here
 Use the following link to invite the bot into your server:
 https://discord.com/api/oauth2/authorize?client_id=709278168338399266&permissions=35840&scope=bot
+
 To use the bot, run main.py
